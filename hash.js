@@ -13,9 +13,9 @@ hashApp.controller('InputCtrl', function($scope) {
 	} else {
 		$scope.algorithm = $scope.algorithms[0];
 	}
-  
+
 	$scope.hash = function() {
-		
+
 		if ($scope.input.length) {
 			return '' + CryptoJS[$scope.algorithm]($scope.input);
 		} else {
