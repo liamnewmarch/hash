@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" manifest="hash.appcache" data-ng-app="hashApp">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>Hash tool, by Liam Newmarch</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header>
+			<h1>Hash tool</h1>
+			<p>A client-side hashing tool by <a href="http://liamnewmarch.co.uk">Liam Newmarch</a>
+		</header>
+		<main data-ng-controller="InputCtrl">
+			<label> Algorithm:
+				<select data-ng-model="algorithm" data-ng-change="change()" data-ng-options="value for value in algorithms"></select>
+			</label>
+			<input autofocus placeholder="Input" data-ng-model="input">
+			<input placeholder="Output" readonly value="{{ hash() }}">
+			<h2>Tips</h2>
+			<p>The input has autofocus so you can <strong>paste</strong> → <strong>tab</strong> → <strong>copy</strong>.</p>
+			<p>The selected algorithm is saved between page refreshes.</p>
+			<p>You can use this tool when offline thanks to HTML5 AppCache.</p>
+		</main>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
+		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+		<script src="hash.js"></script>
+	</body>
+</html>
