@@ -1,33 +1,64 @@
 'use strict';
 
-var hashApp = angular.module('hashApp', []);
+function Storage() {
+  const storage = window.localStorage || {};
 
-hashApp.controller('InputCtrl', function($scope) {
+  function get(key, defaultValue) {
+    return storage[key] || defaultValue;
+  }
 
-	$scope.algorithms = [ 'SHA512', 'SHA256', 'SHA1', 'MD5' ];
+  function set(key, value) {
+    return storage[key] = value;
+  }
 
-	$scope.input = '';
+  return { get, set };
+}
 
-	if ('localStorage' in window && 'algorithm' in localStorage) {
-		$scope.algorithm = localStorage.algorithm;
-	} else {
-		$scope.algorithm = $scope.algorithms[0];
-	}
 
-	$scope.hash = function() {
+Crypto.$inject = ['Storage'];
+function Crypto(Storage) {
+  const crypto = window.CryptoJS;
+  const algorithms = ['SHA512', 'SHA256', 'SHA1', 'MD5'];
 
-		if ($scope.input.length) {
-			return '' + CryptoJS[$scope.algorithm]($scope.input);
-		} else {
-			return '';
-		}
-	};
+  function get() {
+    const defaultValue = algorithms[0];
+    return Storage.get('algorithm', defaultValue);
+  }
 
-	$scope.change = function() {
+  function hash(input) {
+    if (!input.length) return '';
+    const key = get();
+    const algorithm = crypto[key];
+    return algorithm(input);
+  }
 
-		if ('localStorage' in window) {
-			localStorage.algorithm = $scope.algorithm;
-		}
-	};
-});
+  function set(algorithm) {
+    Storage.set('algorithm', algorithm);
+    return crypto[algorithm];
+  }
 
+	return { algorithms, get, hash, set };
+}
+
+
+InputCtrl.$inject = ['Crypto'];
+function InputCtrl(Crypto) {
+  const vm = this;
+
+  const update = () => {
+    vm.crypto.set(vm.algorithm);
+    vm.output = Crypto.hash(vm.input);
+  }
+
+  angular.extend(this, {
+    algorithm: Crypto.get(),
+    crypto: Crypto,
+    update: update
+  });
+}
+
+
+angular.module('hashApp', [])
+  .service(Storage.name, Storage)
+  .service(Crypto.name, Crypto)
+  .controller(InputCtrl.name, InputCtrl);
