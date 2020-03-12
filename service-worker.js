@@ -1,30 +1,26 @@
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2;
 
-const CACHE_URLS_LOCAL = [
+const CACHE_URLS = [
   '',
   'app.css',
   'app.js',
 ];
 
-const CACHE_URLS_CDN = [
-  'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha1.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha512.js',
-];
-
 self.addEventListener('activate', (event) => {
   event.waitUntil(async () => {
+    const cacheVersions = await caches.keys();
+    for (const cacheVersion of cacheVersions) {
+      if (cacheVersion !== CACHE_VERSION) {
+        await caches.delete(cacheVersion);
+      }
+    }
     const cache = await caches.open(CACHE_VERSION);
-    return cache.addAll([
-      ...LOCAL_FILES,
-      ...CDN_FILES,
-    ]);
+    return cache.addAll(CACHE_URLS);
   });
-})
+});
 
 self.addEventListener('fetch', (event) => {
   event.waitUntil(async (event) => {
     return await caches.match(event.request) || await fetch(event.request);
   });
-})
+});
