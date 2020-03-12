@@ -1,4 +1,4 @@
-const CACHE_VERSION = 3;
+const CACHE_VERSION = '3';
 
 const CACHE_URLS = [
   '.',
@@ -15,17 +15,24 @@ const CACHE_URLS = [
 
 const CACHE_STRATEGY = {
   async activate() {
-    const cacheVersions = await caches.keys();
-    for (const cacheVersion of cacheVersions) {
+    for (const cacheVersion of await caches.keys()) {
       if (cacheVersion !== CACHE_VERSION) {
+        console.log('deleting', cacheVersion, CACHE_VERSION);
         await caches.delete(cacheVersion);
       }
     }
-    const cache = await caches.open(CACHE_VERSION);
-    return cache.addAll(CACHE_URLS);
   },
   async fetch(event) {
-    return await caches.match(event.request) || await fetch(event.request);
+    try {
+      return await caches.match(event.request) || await fetch(event.request);
+    } catch (error) {
+      return caches.match('/');
+    }
+  },
+  async install() {
+    const cache = await caches.open(CACHE_VERSION);
+    console.log('install');
+    return cache.addAll(CACHE_URLS);
   },
 };
 
@@ -33,6 +40,11 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(CACHE_STRATEGY.activate(event));
 });
 
+self.addEventListener('install', (event) => {
+  event.waitUntil(CACHE_STRATEGY.install(event));
+  self.skipWaiting();
+});
+
 self.addEventListener('fetch', (event) => {
-  event.waitUntil(CACHE_STRATEGY.fetch(event));
+  event.respondWith(CACHE_STRATEGY.fetch(event));
 });
