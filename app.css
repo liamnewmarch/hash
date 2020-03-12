@@ -25,16 +25,16 @@ html {
 body {
   margin: 0 auto;
   max-width: 40rem;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
   margin: 1rem 0;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 1rem 0;
 }
 
@@ -48,17 +48,18 @@ strong {
 
 header,
 aside {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 main {
   background-color: var(--color-background-emphasis);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 1rem;
 }
 
 form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
@@ -87,4 +88,21 @@ li {
 
 :focus {
   border-color: var(--color-accent);
+}
+
+@media(min-width: 30rem) {
+  body,
+  header,
+  main,
+  aside {
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
 }
