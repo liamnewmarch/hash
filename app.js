@@ -44,6 +44,8 @@ class Controller extends HTMLElement {
       this.select.append(option);
     }
 
+    this.select.value = this.crypto.algorithm;
+
     this.form.addEventListener('input', this.oninput);
   }
 
