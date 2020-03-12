@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" nope-manifest="hash.appcache" ng-app="hashApp" ng-strict-di>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width">
-		<title>Hash tool, by Liam Newmarch</title>
-		<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<header class="jumbotron">
-						<h1>Hash tool</h1>
-						<p>A client-side hashing tool by <a href="https://liamnewmarch.co.uk">Liam Newmarch</a></p>
-					</header>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12" ng-controller="InputCtrl as vm">
-					<form role="form">
-						<div class="form-group">
-							<label> Algorithm: </label>
-							<select class="form-control" ng-model="vm.algorithm" ng-change="vm.update()" ng-options="value for value in vm.crypto.algorithms"></select>
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Input" autofocus ng-model="vm.input" ng-change="vm.update()">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Output" readonly ng-model="vm.output">
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<h2>Tips</h2>
-					<p>The input has autofocus so you can <strong>paste</strong> → <strong>tab</strong> → <strong>copy</strong>.</p>
-					<p>The selected algorithm is saved between page refreshes.</p>
-					<p>You can use this tool when offline thanks to HTML5 AppCache.</p>
-				</div>
-			</div>
-		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha1.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha512.js"></script>
-		<script src="hash.js"></script>
-		<script async src="https://liamnewmarch.github.io/js/analytics.js"></script>
-	</body>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <title>Hash tool, by Liam Newmarch</title>
+    <link href="app.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h1>Hash tool</h1>
+      <p>A client-side hashing tool by <a href="https://liamnewmarch.co.uk">Liam Newmarch</a></p>
+    </header>
+    <main>
+      <app-controller class="col-md-12">
+        <form>
+          <label>Algorithm</label>
+          <select name="algorithm"></select>
+          <label>Input</label>
+          <input name="input" autofocus>
+          <label>Output</label>
+          <input name="output" readonly>
+        </form>
+      </app-controller>
+    </main>
+    <aside>
+      <h2>Tips</h2>
+      <ul>
+        <li>On load, the input has autofocus so you can <strong>paste</strong> → <strong>tab</strong> → <strong>copy</strong>.</li>
+        <li>The selected algorithm is saved between page refreshes.</li>
+        <li>You can use this tool when offline if you install as a PWA.</li>
+      </ul>
+    </aside>
+    <script src="app.js" type="module"></script>
+  </body>
 </html>

@@ -1,0 +1,90 @@
+:root {
+  --color-accent: #ff8c00;
+  --color-background: #fff;
+  --color-background-emphasis: #f5f5f5;
+  --color-text: #272822;
+  --color-text-emphasis: #000;
+  --radius: .2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #272822;
+    --color-background-emphasis: #fff1;
+    --color-text: #eee;
+    --color-text-emphasis: #fff;
+  }
+}
+
+html {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font: 300 18px sans-serif;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 1rem 0;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+a {
+  color: inherit;
+}
+
+strong {
+  color: var(--color-text-emphasis);
+}
+
+header,
+aside {
+  padding: 2rem;
+}
+
+main {
+  background-color: var(--color-background-emphasis);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+form {
+  display: grid;
+}
+
+label {
+  display: block;
+  font-size: .8rem;
+}
+
+input,
+select {
+  all: unset;
+  border: .1rem solid;
+  border-radius: var(--radius);
+  display: block;
+  font-family: monospace;
+  padding: 1rem;
+  margin: .5rem 0 1rem;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  margin: 1rem 0;
+}
+
+:focus {
+  border-color: var(--color-accent);
+}
