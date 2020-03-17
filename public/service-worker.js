@@ -17,7 +17,6 @@ const CACHE_STRATEGY = {
   async activate() {
     for (const cacheVersion of await caches.keys()) {
       if (cacheVersion !== CACHE_VERSION) {
-        console.log('deleting', cacheVersion, CACHE_VERSION);
         await caches.delete(cacheVersion);
       }
     }
@@ -31,7 +30,6 @@ const CACHE_STRATEGY = {
   },
   async install() {
     const cache = await caches.open(CACHE_VERSION);
-    console.log('install');
     return cache.addAll(CACHE_URLS);
   },
 };
